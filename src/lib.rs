@@ -1,3 +1,4 @@
+#![allow(clippy::unit_arg)]
 use rocket::Config;
 
 #[macro_use]
@@ -7,7 +8,9 @@ extern crate rocket;
 fn health_check() {}
 
 pub fn app(port: u16) -> rocket::Rocket {
-    let mut config = Config::default();
-    config.port = port;
+    let config = Config {
+        port,
+        ..Config::default()
+    };
     rocket::custom(config).mount("/", routes![health_check])
 }
