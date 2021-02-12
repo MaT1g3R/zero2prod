@@ -4,9 +4,7 @@ use rocket::Config;
 extern crate rocket;
 
 #[get("/health_check")]
-fn health_check() -> () {
-    ()
-}
+fn health_check() {}
 
 pub fn app(port: u16) -> rocket::Rocket {
     let mut config = Config::default();
