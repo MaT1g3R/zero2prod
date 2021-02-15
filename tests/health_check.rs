@@ -5,7 +5,7 @@ use zero2prod::app;
 
 #[rocket::async_test]
 async fn health_check_works() {
-    let port = spawn_app().expect("Failed to launch app.");
+    let port = spawn_app();
 
     let client = reqwest::Client::new();
 
@@ -21,6 +21,7 @@ async fn health_check_works() {
 
 fn spawn_app() -> io::Result<u16> {
     let port = TcpListener::bind("127.0.0.1:0")?.local_addr()?.port();
+fn spawn_app() -> u16 {
+    let port = TcpListener::bind("127.0.0.1:0").and_then(|s|s.local_addr()).map(|a| a.port()).expect("Could not get port.");
     let _ = tokio::spawn(app(port).launch());
-    Ok(port)
 }
